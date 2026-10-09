@@ -20,6 +20,7 @@ def randomStringGenerator(length):
     chars = string.ascii_letters + string.digits
     return ''.join(random.choices(chars, k=length))
 
+
 def URLgenerator(customDomain=None, alias=None):
     if alias is None:
         while True:
@@ -32,9 +33,7 @@ def URLgenerator(customDomain=None, alias=None):
     return f"https://{customDomain if customDomain is not None else domain}/{alias if alias is not None else randString}"
 
 
-
-
-def main():
+def shorten():
     ogURL = str(input("Enter Your Long URL: "))
 
     while True:
@@ -56,8 +55,5 @@ def main():
 
     URLmappings[shortURL] = ogURL
 
-    print(URLmappings)
-    print("Short URL stored in the mapping")
- 
-main()
+    return shortURL
     
