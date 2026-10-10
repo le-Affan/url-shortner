@@ -19,15 +19,23 @@ def randomStringGenerator(length):
 Function takes long URL and optionally a custom domain and/or alias 
 and produces the final shortened URL
 '''
-def URLgenerator(str: longURL, customDomain=None, alias=None):
+def URLgenerator(longURL: str, customDomain=None, alias=None):
     if alias is None:
         while True:
             randString = randomStringGenerator(7)
-            if checkAlias(alias=alias) is None:
+            if checkAlias(alias=randString) is None:
                 break
             else:
                 continue
+    else:
+        if checkAlias(alias=alias) is None:
+            pass
+        else:
+            return None
+
     shortURL = f"https://{customDomain if customDomain is not None else default_domain}/{alias if alias is not None else randString}"
 
-    addNew(longURL=longURL, customDomain=customDomain, alias=alias, shortURL=shortURL)
+    addNew(longURL=longURL, customDomain=customDomain, alias=alias if alias is not None else randString, shortURL=shortURL)
+
+    return shortURL
     

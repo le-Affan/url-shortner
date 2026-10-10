@@ -24,12 +24,11 @@ from dotenv import load_dotenv
 load_dotenv()
 conn = psycopg2.connect(os.getenv("DATABASE_URL"))
 
-cur = conn.cursor()
-
 # look-ups
 def checkAlias(alias):
-    cur.execute("SELECT * FROM urls WHERE alias = %s",(alias,))
-    return cur.fetchone()
+    with conn.cursor() as cur:
+        cur.execute("SELECT * FROM urls WHERE alias = %s",(alias,))
+        return cur.fetchone()
 
 # writes
 """
@@ -37,15 +36,12 @@ ONLY AND ONLY responsible for writing the URL to the DB.
 NOT responsible to check if the URL or any part of it is valid or not.
 """
 def addNew(longURL, customDomain, alias, shortURL):
-    cur.execute("INSERT INTO urls(original_url, alias, custom_domain, short_url) VALUES (%s, %s, %s, %s)",
-                (longURL, alias, customDomain, shortURL)
-                )
-    conn.commit()
-    
-    
-
-
-
-conn.commit()
-cur.close()
-conn.close()
+    try:
+        with conn.cursor() as cur:
+            cur.execute("INSERT INTO urls(original_url, alias, custom_domain, short_url) VALUES (%s, %s, %s, %s)",
+                        (longURL, alias, customDomain, shortURL)
+                        )
+        conn.commit()
+    except Exception:
+        conn.rollback()
+        raise
