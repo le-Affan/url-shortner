@@ -15,7 +15,7 @@
 - added 'expires_at' and 'clicks' to the urls table and created a new analytics tables containing 'url_id' and 'accessed_at' for FR-6 (The system can track basic analytics such as click count and access time)
 
 ### 19 Oct:
- 
+- adjusted the write query in database.py to take into account the DB schema changes.
 
 
 
@@ -23,4 +23,6 @@
 - 2 DB tables: urls and analytics
 - at every click, the link is first checked for validty. If the 'expires_at' timestamp has passed, the link is then disabled and a message 'link not found or has expired' error is returned to the user.
 - separate script which runs at a fixed time each day disables invalid links 
-- 'expires_at' is set to 12 am of the day after which the link is created.
+- 'expires_at' is set to 24 hours after creation time.
+- no support for disabling a URL. Only direct deletion supported. (Disabling can be achived by simply adding a 'status' column in the urls table)
+- no per user profiles or auth. All DB is shared
