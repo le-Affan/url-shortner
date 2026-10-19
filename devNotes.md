@@ -15,8 +15,8 @@
 - added 'expires_at' and 'clicks' to the urls table and created a new analytics tables containing 'url_id' and 'accessed_at' for FR-6 (The system can track basic analytics such as click count and access time)
 
 ### 19 Oct:
-- adjusted the write query in database.py to take into account the DB schema changes.
-
+- completed all FRs.
+- moving to NFRs and overall system design.
 
 
 # Design Decisions:
